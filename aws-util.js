@@ -9,8 +9,8 @@ const typeToFn = {
     "NULL": r.always(null),
     "SS": u.set,
     "NS": r.compose(u.set, r.map(parseInt)),
-    "L": formatFromDynamo,
-    "M": formatFromDynamo
+    "L": dynmToJson,
+    "M": dynmToJson
 }
 
 const dynmToJson = (input) => {
