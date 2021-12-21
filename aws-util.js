@@ -19,24 +19,6 @@ const typeToFn = {
     "M": dynmToJson
 }
 
-// const jsonToDynm = (input) => {
-//     return r.map((val) => { //val => {tipo:valor}
-//         const [type, value] = Object.entries(val)[0]
-//         return typeToFn[type](value)
-//     }, (input))
-// }
-
-// const jsTypeToFn = {
-//     "S": r.identity,
-//     "N": parseInt,
-//     "BOOL": r.identity,
-//     "NULL": r.always(null),
-//     "SS": u.set,
-//     "NS": r.compose(u.set, r.map(parseInt)),
-//     "L": dynmToJson,
-//     "M": dynmToJson
-// }
-
 const typeToDynmType = {
     "string": "S",
     "number": "N",
@@ -44,7 +26,6 @@ const typeToDynmType = {
 }
 
 const whichSet = (s) => {
-    console.log(s)
     const first = s.values().next().value
     const ftype = typeToDynmType[typeof (first)]
     return ftype + "S"
@@ -60,13 +41,37 @@ const whatObject = r.cond([
     [r.T, (x) => { throw new Error("Invalid type: " + x) }]
 ])
 
-const type = (x) => {
+const dynmTypeOf = (x) => {
     const typ = typeof (x)
 
     return (typ === "object") ? whatObject(x) : typeToDynmType[typ]
 }
 
+
+const jsonToDynm = (input) => {
+    return r.map((value) => { 
+        const type = dynmTypeOf(value)
+        const val = dynmTypeToFn[type](value)
+        return {[type]:val}
+    }, (input))
+}
+
+
+
+const dynmTypeToFn = {
+    "S": r.identity,
+    "N": u.toString,
+    "BOOL": r.identity,
+    "NULL": r.always(true),
+    "SS": u.explodeIterable,
+    "NS": r.compose(r.map(u.toString), u.explodeIterable),
+    "L": jsonToDynm,
+    "M": jsonToDynm
+}
+
+
 module.exports = {
     dynmToJson,
-    type
+    dynmTypeOf,
+    jsonToDynm
 }

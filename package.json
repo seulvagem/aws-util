@@ -13,6 +13,6 @@
     },
     "dependencies": {
         "ramda": "^0.27.1",
-        "js-util": "seulvagem/js-util"
+        "js-util": "seulvagem/js-util#5ef195b88486bf46536a16019f2407efd96914b3"
     }
 }
