@@ -24,3 +24,4 @@ For Dynamo (refered as **dynm** from here on out and inside the lib itself) form
 - **dynmToJson**: converts from dynamoDB style to common json acording to the rule above
 
 - **jsonToDynm**: converts a json following the rule above to a dynamoDB json
+oi
