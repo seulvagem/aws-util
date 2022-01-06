@@ -74,6 +74,8 @@ const dynmTypeToFn = {
 
 module.exports = {
     dynmToJson,
+    valDynmToJson,
     dynmTypeOf,
-    jsonToDynm
+    jsonToDynm,
+    valJsonToDynm
 }
