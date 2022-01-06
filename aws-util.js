@@ -1,11 +1,13 @@
 const r = require("ramda")
 const u = require("js-util")
 
+const valDynmToJson = (val) => { //val => {tipo:valor}
+    const [type, value] = Object.entries(val)[0]
+    return typeToFn[type](value)
+}
+
 const dynmToJson = (input) => {
-    return r.map((val) => { //val => {tipo:valor}
-        const [type, value] = Object.entries(val)[0]
-        return typeToFn[type](value)
-    }, (input))
+    return r.map(valDynmToJson, (input))
 }
 
 const typeToFn = {
@@ -48,15 +50,15 @@ const dynmTypeOf = (x) => {
 }
 
 
-const jsonToDynm = (input) => {
-    return r.map((value) => { 
-        const type = dynmTypeOf(value)
-        const val = dynmTypeToFn[type](value)
-        return {[type]:val}
-    }, (input))
+const valJsonToDynm = (value) => { 
+    const type = dynmTypeOf(value)
+    const val = dynmTypeToFn[type](value)
+    return {[type]:val}
 }
 
-
+const jsonToDynm = (input) => {
+    return r.map(valJsonToDynm, (input))
+}
 
 const dynmTypeToFn = {
     "S": r.identity,
